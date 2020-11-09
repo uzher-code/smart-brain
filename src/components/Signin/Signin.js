@@ -8,7 +8,7 @@ class Signin extends Component {
 		super(props);
 		this.state = {
 			signInEmail: '',
-			signInPassword: ''
+			signInPassword: '',
 		}
 	}
 
@@ -18,7 +18,6 @@ class Signin extends Component {
 
 	onPasswordChange = (event) => {
 		this.setState({ signInPassword: event.target.value});
-		console.log(this.state.signInPassword);
 	}
 
 	onSubmitSignIn = (event) => {
@@ -32,6 +31,7 @@ class Signin extends Component {
 		})
 		.then(response => response.json())
 		.then(user => {
+			console.log(user);
 			if (user.id) {
 				this.props.loadUser(user);
 				this.props.onRouteChange('home');
@@ -49,7 +49,6 @@ class Signin extends Component {
 				      <legend className="f1 fw6 ph0 mh0 center">Sign In</legend>
 				      <EmailField onEmailChange={ this.onEmailChange } />
 				      <PasswordField onPasswordChange={this.onPasswordChange}/>
-				      <label className="pa0 ma0 lh-copy f6 pointer"><input type="checkbox" /> Remember me</label>
 				    </fieldset>
 				    <div className="">
 				      <input
