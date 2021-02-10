@@ -85,7 +85,7 @@ class App extends Component {
         })
       .then(response => response.json())
       .then(response => {
-        if (response) {
+        if (response !== 'unable to work with API') {
           fetch('http://localhost:3000/image', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
@@ -95,11 +95,12 @@ class App extends Component {
           })
           .then(response => response.json())
           .then(count => {
-            this.setState(Object.assign(this.state.user, {entries: count}))
+            return this.setState(Object.assign(this.state.user, {entries: count}))
           })
-          .catch(console.log)
+          .catch(console.log);
+          this.displayFaceBox(this.calculateFaceLocation(response));
         }
-        this.displayFaceBox(this.calculateFaceLocation(response))
+        
       })
       .catch(err => console.log(err));
   } 
