@@ -27,7 +27,7 @@ const particleOptions = {
 const initialState = {
   input: '',
   imageUrl: '',
-  box: [],
+  boxes: [],
   route: 'signin',
   isSignedIn: false,
   user: {
@@ -57,21 +57,24 @@ class App extends Component {
   }
 
 
-  calculateFaceLocation = (face) => {
-    const clarifaiFace = face.region_info.bounding_box;
-    const image = document.getElementById('inputImage');
-    const width = Number(image.width);
-    const height = Number(image.height);
-    return {
-      leftCol: clarifaiFace.left_col * width,  
-      topRow: clarifaiFace.top_row * height, 
-      rightCol: width - (clarifaiFace.right_col * width),
-      bottomRow: height - (clarifaiFace.bottom_row * height),
-    }
+  calculateFaceLocation = (data) => {
+    return data.outputs[0].data.regions.map(face => {
+      const clarifaiFace = face.region_info.bounding_box;
+      const image = document.getElementById('inputImage');
+      const width = Number(image.width);
+      const height = Number(image.height);
+
+      return {
+        leftCol: clarifaiFace.left_col * width,
+        topRow: clarifaiFace.top_row * height,
+        rightCol: width - (clarifaiFace.right_col * width),
+        bottomRow: height - (clarifaiFace.bottom_row * height)
+      }
+    });
   }
 
-  displayFaceBox = (locations) => {
-    this.setState({box: locations})
+  displayFaceBoxes = (locations) => {
+    this.setState({boxes: locations})
   }
 
   onPictureSubmit = () => {
@@ -98,13 +101,7 @@ class App extends Component {
             return this.setState(Object.assign(this.state.user, {entries: count}))
           })
           .catch(console.log);
-          const faces = response.outputs[0].data.regions;
-          let locations = [];
-          faces.forEach((face) => {
-            locations.push(this.calculateFaceLocation(face))
-          })
-          this.displayFaceBox(locations);
-          // this.displayFaceBox(this.calculateFaceLocation(response));
+          this.displayFaceBoxes(this.calculateFaceLocation(response));
         }
         
       })
@@ -123,7 +120,7 @@ class App extends Component {
   }
 
   render(){ 
-    const { isSignedIn, box, imageUrl, route, user } = this.state;
+    const { isSignedIn, boxes, imageUrl, route, user } = this.state;
     return (
       <div className="App">
         <Particles className='particles'
@@ -141,7 +138,7 @@ class App extends Component {
                 onInputChange = {this.onInputChange}
                 onPictureSubmit = {this.onPictureSubmit}
               />
-              <FaceRecognition box = {box} imageUrl = {imageUrl} />
+              <FaceRecognition boxes = {boxes} imageUrl = {imageUrl} />
             </div>}
         
       </div>
