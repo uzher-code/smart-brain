@@ -27,7 +27,7 @@ const particleOptions = {
 const initialState = {
   input: '',
   imageUrl: '',
-  box: {},
+  box: [],
   route: 'signin',
   isSignedIn: false,
   user: {
@@ -57,8 +57,8 @@ class App extends Component {
   }
 
 
-  calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+  calculateFaceLocation = (face) => {
+    const clarifaiFace = face.region_info.bounding_box;
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
@@ -70,8 +70,8 @@ class App extends Component {
     }
   }
 
-  displayFaceBox = (location) => {
-    this.setState({box: location})
+  displayFaceBox = (locations) => {
+    this.setState({box: locations})
   }
 
   onPictureSubmit = () => {
@@ -98,7 +98,13 @@ class App extends Component {
             return this.setState(Object.assign(this.state.user, {entries: count}))
           })
           .catch(console.log);
-          this.displayFaceBox(this.calculateFaceLocation(response));
+          const faces = response.outputs[0].data.regions;
+          let locations = [];
+          faces.forEach((face) => {
+            locations.push(this.calculateFaceLocation(face))
+          })
+          this.displayFaceBox(locations);
+          // this.displayFaceBox(this.calculateFaceLocation(response));
         }
         
       })
