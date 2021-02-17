@@ -9,7 +9,7 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Particles from 'react-particles-js';
 import './App.css';
-import 'tachyons';
+
 
 
 const particleOptions = {
@@ -113,9 +113,11 @@ class App extends Component {
   }
 
   onRouteChange = (page) => {
-    (page === 'home') ?
+    if (page === 'signout') {
+      return this.setState(initialState)
+    } else if (page === 'home'){
       this.setState({isSignedIn: true})
-      : this.setState(initialState);
+    }
     this.setState({route: page});
   }
 
