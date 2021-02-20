@@ -27,7 +27,10 @@ class Profile extends Component {
 	onProfileUpdate = (data) => {
 		fetch(`http://localhost:3000/profile/${this.props.user.id}`, {
 			method: 'post',
-			headers: {'Content-Type': 'application/json'},
+			headers: {
+              'Content-Type': 'application/json',
+              'Authorization': window.sessionStorage.getItem('token')
+            },
 			body: JSON.stringify({ formInput: data })
 		}).then(resp => {
 			this.props.toggleModal();
