@@ -202,7 +202,7 @@ class App extends Component {
           </Modal>
         }
         {route === 'signin'
-          ? <Signin getProfile={this.getProfile}/>
+          ? <Signin getProfile={this.getProfile} onRouteChange={this.onRouteChange}/>
           : route === 'register'
             ? <Register loadUser= {this.loadUser} onRouteChange= {this.onRouteChange} />
             : <div>
