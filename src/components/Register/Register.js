@@ -25,6 +25,10 @@ class Register extends Component {
 		this.setState({ registerName: event.target.value});
 	}
 
+	saveAuthTokenInSession = (token) => {
+		window.sessionStorage.setItem('token', token);
+	}
+
 	onSubmitRegister = (event) => {
 		fetch('http://localhost:3000/register', {
 			method: 'post',
@@ -36,10 +40,10 @@ class Register extends Component {
 			})
 		})
 		.then(response => response.json())
-		.then(user => {
-			if (user.id) {
-				this.props.loadUser(user);
-				this.props.onRouteChange('home');
+		.then(data => {
+			if (data.id && data.success === 'true') {
+				this.saveAuthTokenInSession(data.token)
+				this.props.getProfile(data)
 			}
 		})
 	}

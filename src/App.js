@@ -125,7 +125,8 @@ class App extends Component {
   }
 
   onPictureSubmit = () => {
-    this.setState({imageUrl: this.state.input});
+
+    this.setState({boxes: [], imageUrl: this.state.input});
     fetch('http://localhost:3000/imageurl', {
             method: 'post',
             headers: {
@@ -191,7 +192,6 @@ class App extends Component {
         />
         <Navigation isSignedIn= {isSignedIn} toggleModal={this.toggleModal}
           onRouteChange = {this.onRouteChange} />
-        }
         { isProfileOpen && 
           <Modal>
             <Profile 
@@ -204,7 +204,7 @@ class App extends Component {
         {route === 'signin'
           ? <Signin getProfile={this.getProfile} onRouteChange={this.onRouteChange}/>
           : route === 'register'
-            ? <Register loadUser= {this.loadUser} onRouteChange= {this.onRouteChange} />
+            ? <Register getProfile={this.getProfile} onRouteChange= {this.onRouteChange} />
             : <div>
               <Logo />
               <Rank name={user.name} entries={user.entries}/>
