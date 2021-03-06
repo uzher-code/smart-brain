@@ -12,9 +12,9 @@ import Modal from './components/Modal/Modal';
 import Profile from './components/Profile/Profile';
 import './App.css';
 
+console.log(window.innerWidth);
 
-
-const particleOptions = {
+let particleOptions = {
   particles: {
     number: {
       value:80,
@@ -25,6 +25,20 @@ const particleOptions = {
     }
   }
 }
+if (window.innerWidth < 650) {
+   particleOptions = {
+    particles: {
+      number: {
+        value:40,
+        density: {
+          enable: true,
+          value_area: 800
+        }
+      }
+    }
+  }
+}
+
 
 const initialState = {
   input: '',
