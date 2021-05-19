@@ -48,7 +48,7 @@ v14.16.0
 ## Getting Started
 
 ```bash
-git clone https://github.com/hatchways/team-iron-man.git
+git clone https://github.com/uzher-code/smart-brain.git
 ```
 
 
