@@ -1,4 +1,4 @@
-# Team Iron Man: ClueWords <!-- omit in toc -->
+# SmartBrain Project - Frontend <!-- omit in toc -->
 
 **_Table of Contents:_**
 
